@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
+	twilioc "github.com/f0rk/twiliogo"
 	"github.com/hashicorp/terraform/helper/schema"
-	twilioc "github.com/tulip/twiliogo"
 )
 
 func phonenumberCreate(d *schema.ResourceData, meta interface{}) error {
@@ -88,14 +88,14 @@ func phonenumberRead(d *schema.ResourceData, meta interface{}) error {
 	d.Set("status_callback", numberStruct.StatusCallback)
 	d.Set("status_callback_method", numberStruct.StatusCallbackMethod)
 	d.Set("voice_caller_id_lookup", numberStruct.VoiceCallerIdLookup)
-	d.Set("voice_application_id", numberStruct.VoiceApplicationId)
+	d.Set("voice_application_sid", numberStruct.VoiceApplicationSid)
 	d.Set("date_created", numberStruct.DateCreated)
 	d.Set("date_updated", numberStruct.DateUpdated)
 	d.Set("sms_url", numberStruct.SmsUrl)
 	d.Set("sms_method", numberStruct.SmsMethod)
 	d.Set("sms_fallback_url", numberStruct.SmsFallbackUrl)
 	d.Set("sms_fallback_method", numberStruct.SmsFallbackMethod)
-	d.Set("sms_application_id", numberStruct.SmsApplicationId)
+	d.Set("sms_application_sid", numberStruct.SmsApplicationSid)
 	//d.Set("capabilities", Capabilities         Capabilites `json:"capabilities"`
 	d.Set("api_version", numberStruct.ApiVersion)
 	d.Set("uri", numberStruct.Uri)
@@ -133,8 +133,8 @@ func phonenumberUpdate(d *schema.ResourceData, meta interface{}) error {
 	if d.HasChange("voice_fallback_method") {
 		incomingNumber.VoiceFallbackMethod = d.Get("voice_fallback_method").(string)
 	}
-	if d.HasChange("voice_application_id") {
-		incomingNumber.VoiceApplicationId = d.Get("voice_application_id").(string)
+	if d.HasChange("voice_application_sid") {
+		incomingNumber.VoiceApplicationSid = d.Get("voice_application_sid").(string)
 	}
 	if d.HasChange("sms_url") {
 		incomingNumber.SmsUrl = d.Get("sms_url").(string)
@@ -148,8 +148,8 @@ func phonenumberUpdate(d *schema.ResourceData, meta interface{}) error {
 	if d.HasChange("sms_fallback_method") {
 		incomingNumber.SmsFallbackMethod = d.Get("sms_fallback_method").(string)
 	}
-	if d.HasChange("sms_application_id") {
-		incomingNumber.SmsApplicationId = d.Get("sms_application_id").(string)
+	if d.HasChange("sms_application_sid") {
+		incomingNumber.SmsApplicationSid = d.Get("sms_application_sid").(string)
 	}
 	if d.HasChange("status_callback") {
 		incomingNumber.StatusCallback = d.Get("status_callback").(string)
