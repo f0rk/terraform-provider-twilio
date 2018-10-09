@@ -4,6 +4,12 @@ import "github.com/hashicorp/terraform/helper/schema"
 
 func resourcePhonenumber() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: func(d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
+				d.SetId(d.Id())
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 		Schema: map[string]*schema.Schema{
 			"name": &schema.Schema{
 				Type:        schema.TypeString,
@@ -14,8 +20,6 @@ func resourcePhonenumber() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "ISO 3166-1 alpha-2 code of country in which to buy a phone number",
 				Optional:    true,
-				Default:     "US",
-				ForceNew:    true,
 			},
 			"location": &schema.Schema{
 				Type:        schema.TypeSet,
@@ -85,7 +89,11 @@ func resourcePhonenumber() *schema.Resource {
 			"api_version": &schema.Schema{
 				Type:        schema.TypeString,
 				Description: "Calls to this phone number will start a new TwiML session with this API version. Either 2010-04-01 or 2008-08-01.",
-				Optional:    true,
+				Computed:    true,
+			},
+			"uri": &schema.Schema{
+				Type:        schema.TypeString,
+				Description: "The URI for this resource, relative to https://api.twilio.com.",
 				Computed:    true,
 			},
 			"voice_caller_id_lookup": &schema.Schema{
@@ -118,6 +126,11 @@ func resourcePhonenumber() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"voice_application_id": &schema.Schema{
+				Type:        schema.TypeString,
+				Description: "The 34 character sid of the application Twilio should use to handle phone calls to this number. If present, Twilio will ignore all of the voice urls above and use those set on the application. Setting this will automatically delete your TrunkSid and vice versa.",
+				Optional:    true,
+			},
 			"sms_url": &schema.Schema{
 				Type:        schema.TypeString,
 				Description: "The URL that Twilio should request when somebody sends an SMS to the new phone number.",
@@ -142,6 +155,11 @@ func resourcePhonenumber() *schema.Resource {
 				Optional:    true,
 				Computed:    true,
 			},
+			"sms_application_id": &schema.Schema{
+				Type:        schema.TypeString,
+				Description: "The 34 character sid of the application Twilio should use to handle SMSs sent to this number. If present, Twilio will ignore all of the SMS urls above and use those set on the application.",
+				Optional:    true,
+			},
 			"status_callback": &schema.Schema{
 				Type:        schema.TypeString,
 				Description: "The URL that Twilio will request to pass status parameters (such as call ended) to your application",
@@ -152,6 +170,16 @@ func resourcePhonenumber() *schema.Resource {
 				Type:        schema.TypeString,
 				Description: "The HTTP method Twilio will use to make requests to the StatusCallback URL. Either GET or POST",
 				Optional:    true,
+				Computed:    true,
+			},
+			"date_created": &schema.Schema{
+				Type:        schema.TypeString,
+				Description: "The date that this resource was created, given as GMT RFC 2822 format.",
+				Computed:    true,
+			},
+			"date_updated": &schema.Schema{
+				Type:        schema.TypeString,
+				Description: "The date that this resource was last updated, given as GMT RFC 2822 format.",
 				Computed:    true,
 			},
 		},

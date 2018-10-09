@@ -81,6 +81,24 @@ func phonenumberRead(d *schema.ResourceData, meta interface{}) error {
 
 	d.Set("name", numberStruct.FriendlyName)
 	d.Set("phone_number", numberStruct.PhoneNumber)
+	d.Set("voice_url", numberStruct.VoiceUrl)
+	d.Set("voice_method", numberStruct.VoiceMethod)
+	d.Set("voice_fallback_url", numberStruct.VoiceFallbackUrl)
+	d.Set("voice_fallback_method", numberStruct.VoiceFallbackMethod)
+	d.Set("status_callback", numberStruct.StatusCallback)
+	d.Set("status_callback_method", numberStruct.StatusCallbackMethod)
+	d.Set("voice_caller_id_lookup", numberStruct.VoiceCallerIdLookup)
+	d.Set("voice_application_id", numberStruct.VoiceApplicationId)
+	d.Set("date_created", numberStruct.DateCreated)
+	d.Set("date_updated", numberStruct.DateUpdated)
+	d.Set("sms_url", numberStruct.SmsUrl)
+	d.Set("sms_method", numberStruct.SmsMethod)
+	d.Set("sms_fallback_url", numberStruct.SmsFallbackUrl)
+	d.Set("sms_fallback_method", numberStruct.SmsFallbackMethod)
+	d.Set("sms_application_id", numberStruct.SmsApplicationId)
+	//d.Set("capabilities", Capabilities         Capabilites `json:"capabilities"`
+	d.Set("api_version", numberStruct.ApiVersion)
+	d.Set("uri", numberStruct.Uri)
 
 	return nil
 }
@@ -115,6 +133,9 @@ func phonenumberUpdate(d *schema.ResourceData, meta interface{}) error {
 	if d.HasChange("voice_fallback_method") {
 		incomingNumber.VoiceFallbackMethod = d.Get("voice_fallback_method").(string)
 	}
+	if d.HasChange("voice_application_id") {
+		incomingNumber.VoiceApplicationId = d.Get("voice_application_id").(string)
+	}
 	if d.HasChange("sms_url") {
 		incomingNumber.SmsUrl = d.Get("sms_url").(string)
 	}
@@ -126,6 +147,9 @@ func phonenumberUpdate(d *schema.ResourceData, meta interface{}) error {
 	}
 	if d.HasChange("sms_fallback_method") {
 		incomingNumber.SmsFallbackMethod = d.Get("sms_fallback_method").(string)
+	}
+	if d.HasChange("sms_application_id") {
+		incomingNumber.SmsApplicationId = d.Get("sms_application_id").(string)
 	}
 	if d.HasChange("status_callback") {
 		incomingNumber.StatusCallback = d.Get("status_callback").(string)
